@@ -9,9 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^2.1.2",
+    "axios": "^1.7.4",
+    "cheerio": "^1.0.0",
+    "mongodb": "^6.8.0",
+    "next": "14.2.5",
+    "nodemailer": "^6.9.14",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.5"
+    "react-responsive-carousel": "^3.2.23"
   },
   "devDependencies": {
     "postcss": "^8",
