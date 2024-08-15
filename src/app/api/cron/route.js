@@ -5,7 +5,7 @@ import {
   getAveragePrice,
   getEmailNotifType,
 } from "@/lib/utils";
-import { connectDb } from "@/lib/mongoose";
+import { connectDb } from "@/lib/database";
 import { scrapeAmazonProduct } from "@/lib/scraper";
 import { generateEmailBody, sendEmail } from "@/lib/nodemailer";
 
