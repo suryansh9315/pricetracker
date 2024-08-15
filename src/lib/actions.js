@@ -71,6 +71,7 @@ export const getAllProducts = async () => {
     for await (const doc of productsPointer) {
       productsList.push(doc);
     }
+    revalidatePath(`/`);
     return productsList;
   } catch (error) {
     console.log(error);
