@@ -63,7 +63,7 @@ export async function GET(request) {
           const userEmails = newProduct.users.map((user) => user.email);
           await sendEmail(emailContent, userEmails);
         }
-        return newProduct;
+        return newProduct._id;
       })
     );
     return NextResponse.json({
