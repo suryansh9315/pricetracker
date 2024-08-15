@@ -9,6 +9,10 @@ import { connectDb } from "@/lib/database";
 import { scrapeAmazonProduct } from "@/lib/scraper";
 import { generateEmailBody, sendEmail } from "@/lib/nodemailer";
 
+export const maxDuration = 300;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export async function GET(request) {
   try {
     const db = await connectDb();
@@ -36,9 +40,13 @@ export async function GET(request) {
           highestPrice: getHighestPrice(updatedPriceHistory),
           averagePrice: getAveragePrice(updatedPriceHistory),
         };
-        const query = { url: scrapedProduct.url };
+        const query = { url: currentProduct.url };
         const options = { upsert: false, returnNewDocument: true };
-        const newProduct = await products.findOneAndReplace(query, new_product, options);
+        const newProduct = await products.findOneAndReplace(
+          query,
+          new_product,
+          options
+        );
         const emailNotifType = getEmailNotifType(
           scrapedProduct,
           currentProduct
