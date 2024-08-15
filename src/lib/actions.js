@@ -33,10 +33,11 @@ export const scrapeAndStoreProduct = async (productUrl) => {
         averagePrice: getAveragePrice(updatedPriceHistory),
       };
     }
-    const options = { upsert: true, new: true };
-    const newProduct = await products.replaceOne(query, new_product, options);
-    revalidatePath(`/products/${newProduct._id}`);
+    const options = { upsert: true, returnNewDocument: true };
+    const newProduct = await products.findOneAndReplace(query, new_product, options);
+    revalidatePath(`/products/${newProduct?._id}`);
   } catch (error) {
+    console.log(error)
     throw new Error(`Failed to create/update product: ${error.message}`);
   }
 };
@@ -93,7 +94,7 @@ export const getSimilarProducts = async (productId) => {
     for await (const doc of similarProductsPointer) {
         similarProductsList.push(doc);
     }
-    return similarProductsList;
+    return similarProductsList.slice(0, 3);
   } catch (error) {
     console.log(error);
   }

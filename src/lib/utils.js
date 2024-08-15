@@ -1,3 +1,12 @@
+const Notification = {
+  WELCOME: "WELCOME",
+  CHANGE_OF_STOCK: "CHANGE_OF_STOCK",
+  LOWEST_PRICE: "LOWEST_PRICE",
+  THRESHOLD_MET: "THRESHOLD_MET",
+};
+
+const THRESHOLD_PERCENTAGE = 40;
+
 export const extractPrice = (...elements) => {
   for (const element of elements) {
     const priceText = element.text().trim();
@@ -64,4 +73,19 @@ export const formatNumber = (num = 0) => {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   });
+};
+
+export const getEmailNotifType = (scrapedProduct, currentProduct) => {
+  const lowestPrice = getLowestPrice(currentProduct.priceHistory);
+  if (scrapedProduct.currentPrice < lowestPrice) {
+    return Notification.LOWEST_PRICE;
+  }
+  if (!scrapedProduct.isOutOfStock && currentProduct.isOutOfStock) {
+    return Notification.CHANGE_OF_STOCK;
+  }
+  if (scrapedProduct.discountRate >= THRESHOLD_PERCENTAGE) {
+    return Notification.THRESHOLD_MET;
+  }
+
+  return null;
 };
